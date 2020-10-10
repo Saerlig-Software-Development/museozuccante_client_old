@@ -1,6 +1,6 @@
-import 'package:combiyou/core/presentation/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:f_logs/f_logs.dart' as FLog;
+import 'package:museo_zuccante/core/presentation/colors.dart';
 
 extension FLogLogLevelExtension on FLog.LogLevel {
   //ignore: non_constant_identifier_names
@@ -12,7 +12,7 @@ extension FLogLogLevelExtension on FLog.LogLevel {
       case 'LogLevel.WARNING':
         return Colors.orange;
       case 'LogLevel.ERROR':
-        return CYColors.errorColor;
+        return MZColors.errorColor;
       case 'LogLevel.FATAL':
         return Colors.redAccent;
       default:

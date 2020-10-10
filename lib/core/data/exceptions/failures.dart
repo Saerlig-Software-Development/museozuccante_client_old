@@ -51,6 +51,8 @@ class NotConnectedFailure extends NetworkFailure {
   }
 }
 
+class GenericFailureWithoutException extends GenericFailure {}
+
 class GenericFailure extends Failure {
   GenericFailure({Exception e}) : super(e: e);
 
