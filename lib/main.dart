@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:museo_zuccante/core/core_container.dart';
-import 'package:museo_zuccante/feature/items/presentation/items_page.dart';
+import 'package:museo_zuccante/core/presentation/colors.dart';
+import 'package:museo_zuccante/feature/navigator/navigator_page.dart';
 
 void main() async {
   // Before dependency injection, for shared preferences
@@ -24,10 +26,21 @@ class MuseumApp extends StatelessWidget {
     return MaterialApp(
       title: 'Museo Zuccante',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        // brightness: Brightness.dark,
+        // scaffoldBackgroundColor: MZColors.backgroundColor,
+        // fontFamily: 'Gilroy',
+        textTheme: GoogleFonts.varelaRoundTextTheme(
+          Theme.of(context).textTheme,
+        ),
+
+        // primarySwatch: MZColors.primary,
+        primaryColor: MZColors.primary,
         visualDensity: VisualDensity.adaptivePlatformDensity,
+        iconTheme: Theme.of(context).iconTheme.copyWith(
+              color: Colors.black,
+            ),
       ),
-      home: ItemsPage(),
+      home: NavigatorPage(),
     );
   }
 }

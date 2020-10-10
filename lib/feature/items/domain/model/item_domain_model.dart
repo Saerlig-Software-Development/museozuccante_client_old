@@ -111,37 +111,3 @@ class RoomDomainModel {
     return 'RoomDomainModel(id: $id, title: $title, floor: $floor, number: $number)';
   }
 }
-
-// extension ItemConverters on ItemDomainModel {
-//   ItemDomainModel fromRemoteModel(ItemRemoteModel remote) {
-//     return ItemDomainModel(
-//       id: remote.id,
-//       title: remote.title,
-//       subtitle: remote.subtitle,
-//       poster: remote.poster,
-//       body: remote.body,
-//       room: RoomDomainModel(
-//         id: remote.room.id,
-//         title: remote.room.title,
-//         floor: remote.room.floor,
-//         number: remote.room.number,
-//       ),
-//     );
-//   }
-
-//   ItemDomainModel fromLocalModel(ItemLocalModel local) {
-//     return ItemDomainModel(
-//       id: local.id,
-//       title: local.title,
-//       subtitle: local.subtitle,
-//       poster: local.poster,
-//       body: local.body,
-//       room: RoomDomainModel(
-//         id: local.roomId,
-//         number: local.roomNumber,
-//         floor: local.roomFloor,
-//         title: local.roomTitle,
-//       ),
-//     );
-//   }
-// }

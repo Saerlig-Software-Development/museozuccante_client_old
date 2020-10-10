@@ -24,11 +24,10 @@ class _ItemsPageState extends State<ItemsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Home'),
-      ),
       body: BlocBuilder<ItemsBloc, ItemsState>(
         builder: (context, state) {
+          // return ItemsLoadingState();
+
           if (state is ItemsFailure) {
             return ItemsFailureState(failure: state.failure);
           } else if (state is ItemsLoaded) {
