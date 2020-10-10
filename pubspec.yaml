@@ -28,6 +28,7 @@ dependencies:
   flutter_neumorphic: ^3.0.3
   get_it: ^5.0.1
   google_fonts: ^1.1.0
+  rxdart: ^0.24.1
   shared_preferences: ^0.5.12
   shimmer: ^1.1.1
   stack_trace: ^1.9.5

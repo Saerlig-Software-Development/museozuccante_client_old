@@ -13,9 +13,12 @@ void main() async {
   await CoreContainer.init();
 
   runApp(
-    MultiBlocProvider(
-      providers: CoreContainer.getBlocProviders(),
-      child: MuseumApp(),
+    MultiRepositoryProvider(
+      providers: CoreContainer.getRepositoryProviders(),
+      child: MultiBlocProvider(
+        providers: CoreContainer.getBlocProviders(),
+        child: MuseumApp(),
+      ),
     ),
   );
 }

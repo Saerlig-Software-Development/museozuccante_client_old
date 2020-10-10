@@ -4,4 +4,8 @@ import 'package:museo_zuccante/feature/items/domain/model/item_domain_model.dart
 
 abstract class ItemsRepository {
   Future<Either<Failure, List<ItemDomainModel>>> getItems();
+
+  Stream watchAllItems();
+
+  Future updateItems();
 }

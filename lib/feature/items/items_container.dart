@@ -5,7 +5,9 @@ import 'package:museo_zuccante/feature/items/data/datasources/items_remote_datas
 import 'package:museo_zuccante/feature/items/data/repository/items_repository_impl.dart';
 import 'package:museo_zuccante/feature/items/domain/repositories/items_repository.dart';
 import 'package:museo_zuccante/feature/items/domain/usecases/get_items_usecase.dart';
+import 'package:museo_zuccante/feature/items/domain/usecases/watch_items_usecase.dart';
 import 'package:museo_zuccante/feature/items/presentation/bloc/items_bloc.dart';
+import 'package:museo_zuccante/feature/items/presentation/watcher/items_watcher_bloc.dart';
 
 final sl = GetIt.instance;
 
@@ -17,11 +19,19 @@ class ItemsContainer {
       () => ItemsRepositoryImpl(
         networkInfo: sl(),
         itemsRemoteDatasource: sl(),
+        itemsLocalDatasource: sl(),
+        sharedPreferences: sl(),
       ),
     );
 
     sl.registerLazySingleton(
       () => GetItemsUseCase(
+        itemsRepository: sl(),
+      ),
+    );
+
+    sl.registerLazySingleton(
+      () => WatchItemsUseCase(
         itemsRepository: sl(),
       ),
     );
@@ -32,6 +42,11 @@ class ItemsContainer {
       BlocProvider<ItemsBloc>(
         create: (BuildContext context) => ItemsBloc(
           getItemsUseCase: sl(),
+        ),
+      ),
+      BlocProvider<ItemsWatcherBloc>(
+        create: (BuildContext context) => ItemsWatcherBloc(
+          itemsRepository: sl(),
         ),
       ),
     ];

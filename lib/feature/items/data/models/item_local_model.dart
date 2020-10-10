@@ -1,6 +1,7 @@
 import 'package:floor/floor.dart';
+import 'package:museo_zuccante/feature/items/data/models/item_remote_model.dart';
 
-@Entity(tableName: 'item')
+@Entity(tableName: 'items')
 class ItemLocalModel {
   @PrimaryKey()
   String id;
@@ -40,6 +41,18 @@ class ItemLocalModel {
     roomTitle = json['room'] != null ? json['room']['title'] : null;
     roomFloor = json['room'] != null ? json['room']['floor'] : null;
     roomNumber = json['room'] != null ? json['room']['number'] : null;
+  }
+
+  ItemLocalModel.fromRemoteModel(ItemRemoteModel remote) {
+    this.id = remote.id;
+    this.title = remote.title;
+    this.subtitle = remote.subtitle;
+    this.poster = remote.poster;
+    this.body = remote.body;
+    this.roomId = remote.room.id;
+    this.roomTitle = remote.room.title;
+    this.roomFloor = remote.room.floor;
+    this.roomNumber = remote.room.number;
   }
 
   @override

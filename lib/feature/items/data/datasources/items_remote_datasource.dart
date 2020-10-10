@@ -11,7 +11,7 @@ class ItemsRemoteDatasource {
   Future<List<ItemRemoteModel>> getItems() async {
     final response = await dio.get('/api/item');
 
-    // await Future.delayed(Duration(seconds: 1));
+    await Future.delayed(Duration(seconds: 1));
     List<ItemRemoteModel> itemsList = List<ItemRemoteModel>.from(
         response.data.map((i) => ItemRemoteModel.fromJson(i)));
 

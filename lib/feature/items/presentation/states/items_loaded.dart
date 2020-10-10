@@ -5,7 +5,7 @@ import 'package:museo_zuccante/core/presentation/colors.dart';
 import 'package:museo_zuccante/core/presentation/image/mz_image.dart';
 import 'package:museo_zuccante/feature/item/presentation/item_page.dart';
 import 'package:museo_zuccante/feature/items/domain/model/item_domain_model.dart';
-import 'package:museo_zuccante/feature/items/presentation/bloc/items_bloc.dart';
+import 'package:museo_zuccante/feature/items/domain/repositories/items_repository.dart';
 
 class ItemsLoadedState extends StatefulWidget {
   final List<ItemDomainModel> items;
@@ -27,7 +27,7 @@ class _ItemsLoadedStateState extends State<ItemsLoadedState> {
         backgroundColor: MZColors.primary,
         color: Colors.white,
         onRefresh: () async {
-          requestItems();
+          await context.repository<ItemsRepository>().updateItems();
         },
         child: SingleChildScrollView(
           physics: AlwaysScrollableScrollPhysics(),
@@ -400,6 +400,6 @@ class _ItemsLoadedStateState extends State<ItemsLoadedState> {
   }
 
   void requestItems() {
-    BlocProvider.of<ItemsBloc>(context).add(GetItems());
+    context.repository<ItemsRepository>().updateItems();
   }
 }
