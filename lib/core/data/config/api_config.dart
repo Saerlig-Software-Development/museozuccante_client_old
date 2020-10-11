@@ -1,5 +1,3 @@
-import 'dart:io';
-
 class ApiConfig {
   static String apiUrl = "http://f53340bfa98d.ngrok.io";
   // static String apiUrl =

@@ -58,10 +58,27 @@ class ItemsRepositoryImpl implements ItemsRepository {
       if (!ifNeeded | (ifNeeded && _needUpdate())) {
         final remoteItems = await itemsRemoteDatasource.getItems();
 
-        final localItems =
-            remoteItems.map((e) => ItemLocalModel.fromRemoteModel(e)).toList();
+        final localItems = await itemsLocalDatasource.getItems();
+
+        // get the ids
+        final remoteIds = remoteItems.map((e) => e.id).toList();
+
+        List<ItemLocalModel> itemsToDelete = [];
+
+        for (final localItem in localItems) {
+          if (!remoteIds.contains(localItem.id)) {
+            itemsToDelete.add(localItem);
+          }
+        }
+
         await itemsLocalDatasource.deleteAllItems();
-        await itemsLocalDatasource.insertItems(localItems);
+
+        await itemsLocalDatasource.insertItems(
+          remoteItems.map((e) => ItemLocalModel.fromRemoteModel(e)).toList(),
+        );
+
+        // delete the items that were removed from the remote source
+        await itemsLocalDatasource.deleteItems(itemsToDelete);
 
         sharedPreferences.setInt(
             LAST_UPDATE_KEY, DateTime.now().millisecondsSinceEpoch);
@@ -93,7 +110,7 @@ class ItemsRepositoryImpl implements ItemsRepository {
   @override
   Future<Either<Failure, List<ItemDomainModel>>> getItems() async {
     try {
-      final items = await itemsLocalDatasource.getAllItems();
+      final items = await itemsLocalDatasource.getItems();
       return Right(items
           .map(
             (e) => ItemDomainModel.fromLocalModel(e),

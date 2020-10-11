@@ -7,17 +7,18 @@ import 'package:museo_zuccante/core/presentation/image/mz_image.dart';
 import 'package:museo_zuccante/feature/item/presentation/item_page.dart';
 import 'package:museo_zuccante/feature/items/domain/model/item_domain_model.dart';
 import 'package:museo_zuccante/feature/items/presentation/search/search_bloc.dart';
+import 'package:museo_zuccante/feature/items/presentation/states/widget/item_vertical_card.dart';
 import 'package:museo_zuccante/feature/items/presentation/updater/items_updater_bloc.dart';
 import 'package:museo_zuccante/feature/qrcode/presentation/dialog/animated_qr_dialog.dart';
 
-final GlobalKey<ScaffoldState> itemsPageKey = GlobalKey<ScaffoldState>();
-
 class ItemsLoadedState extends StatefulWidget {
   final List<ItemDomainModel> items;
+  final goToList;
 
   const ItemsLoadedState({
     Key key,
     @required this.items,
+    @required this.goToList,
   }) : super(key: key);
 
   @override
@@ -166,73 +167,6 @@ class _ItemsLoadedStateState extends State<ItemsLoadedState> {
                         context: context,
                         builder: (_) => AnimatedQRDialog(),
                       );
-                      // Navigator.push(
-                      //   context,
-                      //   HeroDialogRoute(
-                      //     builder: (BuildContext context) {
-                      //       return AlertDialog(
-                      //         content: QRCodeView(),
-                      //       );
-                      //       return Center(
-                      //         child: AlertDialog(
-                      //           title: Text('You are my hero.'),
-                      //           content: Container(
-                      //             child: Hero(
-                      //               tag: 'qrcode',
-                      //               child: Container(
-                      //                 height: 200.0,
-                      //                 width: 200.0,
-                      //                 // child: QRView(
-                      //                 //     key: qrKey,
-                      //                 //     onQRViewCreated: _onQRViewCreated,
-                      //                 //     ),
-                      //               ),
-                      //             ),
-                      //           ),
-                      //           actions: <Widget>[
-                      //             FlatButton(
-                      //               child: Text('RAD!'),
-                      //               onPressed: Navigator.of(context).pop,
-                      //             ),
-                      //           ],
-                      //         ),
-                      //       );
-                      //     },
-                      //   ),
-                      // );
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(
-                      //     fullscreenDialog: true,
-                      //     builder: (BuildContext context) {
-                      //       return Scaffold(
-                      //         appBar: AppBar(
-                      //           title: Text('Dialog'),
-                      //         ),
-                      //         body: Hero(
-                      //           tag: "qrcode",
-                      //           child: Image(
-                      //             image:
-                      //                 AssetImage('assets/images/theater.png'),
-                      //           ),
-                      //         ),
-                      //       );
-                      //     },
-                      //   ),
-                      // );
-                      // showDialog(
-                      //   context: context,
-                      //   builder: (context) {
-                      //     return Dialog(
-                      //       child: Text("d"),
-                      //     );
-                      //   },
-                      // );
-                      // Navigator.of(context).push(
-                      //   MaterialPageRoute(
-                      //     builder: (context) => QRCodeView(),
-                      //   ),
-                      // );
                     },
                     child: Hero(
                       tag: 'qrcode',
@@ -305,123 +239,8 @@ class _ItemsLoadedStateState extends State<ItemsLoadedState> {
           itemCount: items.length,
           itemBuilder: (context, index) {
             final item = items[index];
-            return Padding(
-              padding: const EdgeInsets.only(bottom: 16.0),
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8.0),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.2),
-                      spreadRadius: 2,
-                      blurRadius: 5,
-                      offset: Offset(0, 1), // changes position of shadow
-                    ),
-                  ],
-                ),
-                margin: EdgeInsets.zero,
-                child: Material(
-                  borderRadius: BorderRadius.circular(8.0),
-                  child: InkWell(
-                    borderRadius: BorderRadius.circular(8.0),
-                    onTap: () {
-                      goToItemPage(item);
-                    },
-                    child: Ink(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(8.0),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width / 4,
-                              height: 80,
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(8.0),
-                                child: Hero(
-                                  tag: 'item${item.id}',
-                                  child: MzImage(
-                                    item.poster,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            // Expanded(
-                            //   flex: 2,
-                            //   child: ClipRRect(
-                            //     borderRadius: BorderRadius.circular(8.0),
-                            //     child: Hero(
-                            //       tag: 'item${item.id}',
-                            //       child: MzImage(
-                            //         item.poster,
-                            //       ),
-                            //     ),
-                            //   ),
-                            // ),
-                            SizedBox(
-                              width: 16,
-                            ),
-                            Expanded(
-                              flex: 4,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  SizedBox(
-                                    height: 8,
-                                  ),
-                                  Text(
-                                    item.title,
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 18,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 4,
-                                  ),
-                                  Text(item.subtitle),
-                                  SizedBox(
-                                    height: 8,
-                                  ),
-                                  Row(
-                                    children: [
-                                      Icon(
-                                        Icons.place,
-                                        size: 15,
-                                      ),
-                                      SizedBox(
-                                        width: 4,
-                                      ),
-                                      Text(
-                                        item.room.title,
-                                        style: TextStyle(
-                                          color:
-                                              MZColors.black.withOpacity(0.7),
-                                          fontWeight: FontWeight.w300,
-                                        ),
-                                      )
-                                    ],
-                                  )
-                                ],
-                              ),
-                            ),
-                            IconButton(
-                              icon: Icon(Icons.bookmark_border),
-                              onPressed: () {},
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            );
+
+            return ItemVerticalCard(item: item);
           },
         ),
       ],
@@ -431,6 +250,7 @@ class _ItemsLoadedStateState extends State<ItemsLoadedState> {
   Widget buildTopVisitedSection({
     @required List<ItemDomainModel> items,
   }) {
+    // return Text(items.map((e) => e.title).toString());
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -450,10 +270,11 @@ class _ItemsLoadedStateState extends State<ItemsLoadedState> {
               FlatButton(
                 splashColor: Colors.transparent,
                 highlightColor: Colors.transparent,
-                // color: ,
-                onPressed: () {},
+                onPressed: () {
+                  widget.goToList();
+                },
                 child: Text(
-                  "View all",
+                  'View all',
                   style: TextStyle(
                     fontSize: 16,
                     color: MZColors.primary,
@@ -464,13 +285,14 @@ class _ItemsLoadedStateState extends State<ItemsLoadedState> {
             ],
           ),
         ),
+        // Text(items.map((e) => e.title).toString()),
         SizedBox(
           height: 250,
           child: SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Row(
               children: List.generate(items.length, (index) {
-                final item = widget.items[index];
+                final item = items[index];
                 if (index == 0) {
                   return Padding(
                     padding: const EdgeInsets.only(left: 16.0),
@@ -589,8 +411,4 @@ class _ItemsLoadedStateState extends State<ItemsLoadedState> {
       ),
     );
   }
-
-  // void requestItems() {
-  //   context.repository<ItemsRepository>().updateItems();
-  // }
 }

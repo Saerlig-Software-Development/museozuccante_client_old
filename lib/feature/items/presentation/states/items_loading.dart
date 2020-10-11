@@ -1,19 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:museo_zuccante/core/presentation/colors.dart';
 import 'package:museo_zuccante/core/presentation/custom_shimmer.dart';
+import 'package:museo_zuccante/feature/items/presentation/updater/items_updater_bloc.dart';
 
 class ItemsLoadingState extends StatelessWidget {
   const ItemsLoadingState({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      padding: EdgeInsets.zero,
-      children: [
-        buildLoadingSearchBar(),
-        buildTopVisitedSection(),
-        buildLoadingNewsAndExibitions()
-      ],
+    return RefreshIndicator(
+      onRefresh: () async {
+        BlocProvider.of<ItemsUpdaterBloc>(context).add(UpdateItems());
+      },
+      child: ListView(
+        padding: EdgeInsets.zero,
+        children: [
+          buildLoadingSearchBar(),
+          buildTopVisitedSection(),
+          buildLoadingNewsAndExibitions()
+        ],
+      ),
     );
   }
 

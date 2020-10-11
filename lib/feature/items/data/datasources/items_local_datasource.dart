@@ -4,7 +4,7 @@ import 'package:museo_zuccante/feature/items/data/models/item_local_model.dart';
 @dao
 abstract class ItemsLocalDatasource {
   @Query("SELECT * FROM items")
-  Future<List<ItemLocalModel>> getAllItems();
+  Future<List<ItemLocalModel>> getItems();
 
   @Query('SELECT * FROM items WHERE id = :id')
   Future<ItemLocalModel> findItemById(String id);
@@ -20,4 +20,10 @@ abstract class ItemsLocalDatasource {
 
   @Query('DELETE FROM items')
   Future<void> deleteAllItems();
+
+  @delete
+  Future<void> deleteItems(List<ItemLocalModel> items);
+
+  @Query('UPDATE items SET bookmarked=1 WHERE id=:id')
+  Future<void> bookmarkItem(String id);
 }

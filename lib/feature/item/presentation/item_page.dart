@@ -8,10 +8,12 @@ import 'package:museo_zuccante/feature/items/domain/model/item_domain_model.dart
 
 class ItemPage extends StatefulWidget {
   final ItemDomainModel item;
+  final bool fromHome;
 
   ItemPage({
     Key key,
     @required this.item,
+    this.fromHome = true,
   }) : super(key: key);
 
   @override
@@ -20,8 +22,6 @@ class ItemPage extends StatefulWidget {
 
 class _ItemPageState extends State<ItemPage> {
   double top = 0.0;
-
-  bool _bookmarked = false;
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +36,9 @@ class _ItemPageState extends State<ItemPage> {
                 child: Stack(
                   children: <Widget>[
                     Hero(
-                      tag: 'item${widget.item.id}',
+                      tag: widget.fromHome
+                          ? 'item${widget.item.id}'
+                          : 'item-list${widget.item.id}',
                       child: Container(
                         height: 300,
                         padding: EdgeInsets.only(top: max(top, 0)),
@@ -57,21 +59,21 @@ class _ItemPageState extends State<ItemPage> {
                         onPressed: () => Navigator.of(context).pop(),
                       ),
                       elevation: 0,
-                      actions: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.only(right: 16.0),
-                          child: IconButton(
-                            icon: _bookmarked
-                                ? Icon(Icons.bookmark)
-                                : Icon(Icons.bookmark_border),
-                            onPressed: () {
-                              setState(() {
-                                _bookmarked = !_bookmarked;
-                              });
-                            },
-                          ),
-                        )
-                      ],
+                      // actions: <Widget>[
+                      //   Padding(
+                      //     padding: const EdgeInsets.only(right: 16.0),
+                      //     child: IconButton(
+                      //       icon: _bookmarked
+                      //           ? Icon(Icons.bookmark)
+                      //           : Icon(Icons.bookmark_border),
+                      //       onPressed: () {
+                      //         setState(() {
+                      //           _bookmarked = !_bookmarked;
+                      //         });
+                      //       },
+                      //     ),
+                      //   )
+                      // ],
                     )
                   ],
                 ),

@@ -115,6 +115,25 @@ class _$ItemsLocalDatasource extends ItemsLocalDatasource {
                   'room_floor': item.roomFloor,
                   'room_number': item.roomNumber
                 },
+            changeListener),
+        _itemLocalModelDeletionAdapter = DeletionAdapter(
+            database,
+            'items',
+            ['id'],
+            (ItemLocalModel item) => <String, dynamic>{
+                  'id': item.id,
+                  'title': item.title,
+                  'subtitle': item.subtitle,
+                  'poster': item.poster,
+                  'body': item.body,
+                  'highlighted': item.highlighted == null
+                      ? null
+                      : (item.highlighted ? 1 : 0),
+                  'room_id': item.roomId,
+                  'room_title': item.roomTitle,
+                  'room_floor': item.roomFloor,
+                  'room_number': item.roomNumber
+                },
             changeListener);
 
   final sqflite.DatabaseExecutor database;
@@ -138,8 +157,10 @@ class _$ItemsLocalDatasource extends ItemsLocalDatasource {
 
   final InsertionAdapter<ItemLocalModel> _itemLocalModelInsertionAdapter;
 
+  final DeletionAdapter<ItemLocalModel> _itemLocalModelDeletionAdapter;
+
   @override
-  Future<List<ItemLocalModel>> getAllItems() async {
+  Future<List<ItemLocalModel>> getItems() async {
     return _queryAdapter.queryList('SELECT * FROM items', mapper: _itemsMapper);
   }
 
@@ -161,6 +182,13 @@ class _$ItemsLocalDatasource extends ItemsLocalDatasource {
   }
 
   @override
+  Future<void> bookmarkItem(String id) async {
+    await _queryAdapter.queryNoReturn(
+        'UPDATE items SET bookmarked=1 WHERE id=?',
+        arguments: <dynamic>[id]);
+  }
+
+  @override
   Future<void> insertItem(ItemLocalModel item) async {
     await _itemLocalModelInsertionAdapter.insert(
         item, OnConflictStrategy.replace);
@@ -170,5 +198,10 @@ class _$ItemsLocalDatasource extends ItemsLocalDatasource {
   Future<List<int>> insertItems(List<ItemLocalModel> items) {
     return _itemLocalModelInsertionAdapter.insertListAndReturnIds(
         items, OnConflictStrategy.replace);
+  }
+
+  @override
+  Future<void> deleteItems(List<ItemLocalModel> items) async {
+    await _itemLocalModelDeletionAdapter.deleteList(items);
   }
 }

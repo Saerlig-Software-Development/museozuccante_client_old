@@ -4,7 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:museo_zuccante/core/presentation/colors.dart';
 import 'package:museo_zuccante/feature/item/presentation/item_loader_page.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 class AnimatedQRDialog extends StatefulWidget {
@@ -31,7 +30,7 @@ class _AnimatedQRDialogState extends State<AnimatedQRDialog>
   /// starts at null and ends at 16
   double _left;
 
-  double _bottom;
+  // double _bottom;
 
   double _height = 62;
   double _width = 62;
@@ -155,6 +154,8 @@ class _AnimatedQRDialogState extends State<AnimatedQRDialog>
     this._qrViewController = controller;
     _qrViewController.scannedDataStream.listen((scanData) {
       _qrViewController.dispose();
+
+      _qrViewController.toggleFlash();
       Navigator.of(context, rootNavigator: true).pop();
 
       Navigator.of(context).push(
