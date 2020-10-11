@@ -10,6 +10,7 @@ class ItemDomainModel {
   String poster;
   String body;
   RoomDomainModel room;
+  bool highlighted;
 
   ItemDomainModel({
     @required this.id,
@@ -18,6 +19,7 @@ class ItemDomainModel {
     @required this.poster,
     @required this.body,
     @required this.room,
+    @required this.highlighted,
   });
 
   ItemDomainModel.fromRemoteModel(ItemRemoteModel remote) {
@@ -26,6 +28,7 @@ class ItemDomainModel {
     this.subtitle = remote.subtitle;
     this.poster = remote.poster;
     this.body = remote.body;
+    this.highlighted = remote.highlighted;
     this.room = RoomDomainModel(
       id: remote.room.id,
       title: remote.room.title,
@@ -40,6 +43,7 @@ class ItemDomainModel {
     this.subtitle = local.subtitle;
     this.poster = local.poster;
     this.body = local.body;
+    this.highlighted = local.highlighted;
     this.room = RoomDomainModel(
       id: local.roomId,
       number: local.roomNumber,

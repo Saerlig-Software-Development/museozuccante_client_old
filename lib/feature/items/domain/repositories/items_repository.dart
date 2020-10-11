@@ -9,4 +9,8 @@ abstract class ItemsRepository {
   Stream<Resource<List<ItemDomainModel>>> watchAllItems();
 
   Future<Either<Failure, Success>> updateItems({@required bool ifNeeded});
+
+  Future<Either<Failure, ItemDomainModel>> getItem(String id);
+
+  Future<Either<Failure, List<ItemDomainModel>>> getItems();
 }

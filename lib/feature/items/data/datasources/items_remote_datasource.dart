@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:museo_zuccante/feature/items/data/models/item_local_model.dart';
 import 'package:museo_zuccante/feature/items/data/models/item_remote_model.dart';
 
 class ItemsRemoteDatasource {
@@ -10,24 +9,13 @@ class ItemsRemoteDatasource {
   });
 
   Future<List<ItemRemoteModel>> getItems() async {
-    final response = await dio.get('/api/item');
+    final response = await dio.get('/api/items');
 
-    await Future.delayed(Duration(seconds: 1));
+    // await Future.delayed(Duration(seconds: 1));
 
     List<ItemRemoteModel> itemsList = List<ItemRemoteModel>.from(
         response.data.map((i) => ItemRemoteModel.fromJson(i)));
 
     return itemsList;
-  }
-
-  Future<List<ItemLocalModel>> getItemsDomainModel() async {
-    final response = await dio.get('/api/item');
-
-    await Future.delayed(Duration(seconds: 1));
-
-    List<ItemRemoteModel> itemsList = List<ItemRemoteModel>.from(
-        response.data.map((i) => ItemRemoteModel.fromJson(i)));
-
-    return itemsList.map((e) => ItemLocalModel.fromRemoteModel(e)).toList();
   }
 }

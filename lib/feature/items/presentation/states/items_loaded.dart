@@ -6,7 +6,9 @@ import 'package:museo_zuccante/core/presentation/colors.dart';
 import 'package:museo_zuccante/core/presentation/image/mz_image.dart';
 import 'package:museo_zuccante/feature/item/presentation/item_page.dart';
 import 'package:museo_zuccante/feature/items/domain/model/item_domain_model.dart';
+import 'package:museo_zuccante/feature/items/presentation/search/search_bloc.dart';
 import 'package:museo_zuccante/feature/items/presentation/updater/items_updater_bloc.dart';
+import 'package:museo_zuccante/feature/qrcode/presentation/dialog/animated_qr_dialog.dart';
 
 final GlobalKey<ScaffoldState> itemsPageKey = GlobalKey<ScaffoldState>();
 
@@ -23,6 +25,18 @@ class ItemsLoadedState extends StatefulWidget {
 }
 
 class _ItemsLoadedStateState extends State<ItemsLoadedState> {
+  TextEditingController _searchController;
+  @override
+  void initState() {
+    super.initState();
+
+    _searchController = TextEditingController();
+    _searchController.addListener(() {
+      context.bloc<SearchBloc>().add(SearchItem(query: _searchController.text));
+      setState(() {});
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
@@ -41,13 +55,33 @@ class _ItemsLoadedStateState extends State<ItemsLoadedState> {
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 buildSearchBar(),
-                buildTopVisitedSection(items: widget.items),
-                buildNewsAndExibitions(items: widget.items),
+                if (_searchController.text.length < 2)
+                  buildTopVisitedSection(
+                      items: widget.items
+                          .where((element) => element.highlighted)
+                          .toList()),
+                if (_searchController.text.length < 2)
+                  buildsAndExibitions(
+                      items: widget.items
+                          .where((element) => !element.highlighted)
+                          .toList()),
+                if (_searchController.text.length >= 2) buildResults()
               ],
             ),
           ),
         ),
       ),
+    );
+  }
+
+  Widget buildResults() {
+    return BlocBuilder<SearchBloc, SearchState>(
+      builder: (context, state) {
+        if (state is SearchResultsLoaded) {
+          return buildsAndExibitions(items: state.results, search: true);
+        }
+        return CircularProgressIndicator();
+      },
     );
   }
 
@@ -66,8 +100,9 @@ class _ItemsLoadedStateState extends State<ItemsLoadedState> {
               Expanded(
                 child: Container(
                   padding: const EdgeInsets.symmetric(
-                      horizontal: 16.0, vertical: 8.0),
-                  // width: MediaQuery.of(context).size.width,
+                    horizontal: 16.0,
+                    vertical: 8.0,
+                  ),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(8.0),
@@ -85,6 +120,7 @@ class _ItemsLoadedStateState extends State<ItemsLoadedState> {
                       Icon(Icons.search),
                       Flexible(
                         child: TextField(
+                          controller: _searchController,
                           decoration: InputDecoration(
                             border: InputBorder.none,
                             focusedBorder: InputBorder.none,
@@ -125,24 +161,100 @@ class _ItemsLoadedStateState extends State<ItemsLoadedState> {
                   ),
                   child: InkWell(
                     borderRadius: BorderRadius.circular(8.0),
-                    onTap: () {},
-                    child: Container(
-                      padding: EdgeInsets.all(13.0),
-                      decoration: BoxDecoration(
-                        // color: MZColors.alternativeBackgroundColor,
-                        borderRadius: BorderRadius.circular(8.0),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.2),
-                            spreadRadius: 2,
-                            blurRadius: 5,
-                            offset: Offset(0, 1), // changes position of shadow
-                          ),
-                        ],
-                      ),
-                      child: Icon(
-                        CupertinoIcons.qrcode_viewfinder,
-                        size: 35,
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (_) => AnimatedQRDialog(),
+                      );
+                      // Navigator.push(
+                      //   context,
+                      //   HeroDialogRoute(
+                      //     builder: (BuildContext context) {
+                      //       return AlertDialog(
+                      //         content: QRCodeView(),
+                      //       );
+                      //       return Center(
+                      //         child: AlertDialog(
+                      //           title: Text('You are my hero.'),
+                      //           content: Container(
+                      //             child: Hero(
+                      //               tag: 'qrcode',
+                      //               child: Container(
+                      //                 height: 200.0,
+                      //                 width: 200.0,
+                      //                 // child: QRView(
+                      //                 //     key: qrKey,
+                      //                 //     onQRViewCreated: _onQRViewCreated,
+                      //                 //     ),
+                      //               ),
+                      //             ),
+                      //           ),
+                      //           actions: <Widget>[
+                      //             FlatButton(
+                      //               child: Text('RAD!'),
+                      //               onPressed: Navigator.of(context).pop,
+                      //             ),
+                      //           ],
+                      //         ),
+                      //       );
+                      //     },
+                      //   ),
+                      // );
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(
+                      //     fullscreenDialog: true,
+                      //     builder: (BuildContext context) {
+                      //       return Scaffold(
+                      //         appBar: AppBar(
+                      //           title: Text('Dialog'),
+                      //         ),
+                      //         body: Hero(
+                      //           tag: "qrcode",
+                      //           child: Image(
+                      //             image:
+                      //                 AssetImage('assets/images/theater.png'),
+                      //           ),
+                      //         ),
+                      //       );
+                      //     },
+                      //   ),
+                      // );
+                      // showDialog(
+                      //   context: context,
+                      //   builder: (context) {
+                      //     return Dialog(
+                      //       child: Text("d"),
+                      //     );
+                      //   },
+                      // );
+                      // Navigator.of(context).push(
+                      //   MaterialPageRoute(
+                      //     builder: (context) => QRCodeView(),
+                      //   ),
+                      // );
+                    },
+                    child: Hero(
+                      tag: 'qrcode',
+                      child: Container(
+                        padding: EdgeInsets.all(13.0),
+                        decoration: BoxDecoration(
+                          // color: MZColors.alternativeBackgroundColor,
+                          borderRadius: BorderRadius.circular(8.0),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.2),
+                              spreadRadius: 2,
+                              blurRadius: 5,
+                              offset:
+                                  Offset(0, 1), // changes position of shadow
+                            ),
+                          ],
+                        ),
+                        child: Icon(
+                          CupertinoIcons.qrcode_viewfinder,
+                          size: 35,
+                        ),
                       ),
                     ),
                   ),
@@ -155,23 +267,37 @@ class _ItemsLoadedStateState extends State<ItemsLoadedState> {
     );
   }
 
-  Widget buildNewsAndExibitions({
+  Widget buildsAndExibitions({
     @required List<ItemDomainModel> items,
+    bool search = false,
   }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0.0),
-          child: Text(
-            'News and exibitions',
-            style: TextStyle(
-              fontSize: 18,
-              color: MZColors.primary,
-              fontWeight: FontWeight.bold,
+        if (search)
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0.0),
+            child: Text(
+              'Results',
+              style: TextStyle(
+                fontSize: 18,
+                color: MZColors.primary,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
-        ),
+        if (!search)
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0.0),
+            child: Text(
+              'News and exibitions',
+              style: TextStyle(
+                fontSize: 18,
+                color: MZColors.primary,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
         ListView.builder(
           physics: NeverScrollableScrollPhysics(),
           padding: const EdgeInsets.all(16.0),
@@ -211,8 +337,9 @@ class _ItemsLoadedStateState extends State<ItemsLoadedState> {
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Expanded(
-                              flex: 2,
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width / 4,
+                              height: 80,
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(8.0),
                                 child: Hero(
@@ -223,6 +350,18 @@ class _ItemsLoadedStateState extends State<ItemsLoadedState> {
                                 ),
                               ),
                             ),
+                            // Expanded(
+                            //   flex: 2,
+                            //   child: ClipRRect(
+                            //     borderRadius: BorderRadius.circular(8.0),
+                            //     child: Hero(
+                            //       tag: 'item${item.id}',
+                            //       child: MzImage(
+                            //         item.poster,
+                            //       ),
+                            //     ),
+                            //   ),
+                            // ),
                             SizedBox(
                               width: 16,
                             ),
@@ -395,7 +534,7 @@ class _ItemsLoadedStateState extends State<ItemsLoadedState> {
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(8.0),
                         child: Hero(
-                          tag: 'item${item.id}-horizontal',
+                          tag: 'item${item.id}',
                           child: MzImage(item.poster),
                         ),
                       ),

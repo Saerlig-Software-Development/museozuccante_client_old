@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:museo_zuccante/core/infrastructure/network_info.dart';
+import 'package:museo_zuccante/feature/item/item_container.dart';
 import 'package:museo_zuccante/feature/items/domain/repositories/items_repository.dart';
 import 'package:museo_zuccante/feature/items/items_container.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -18,6 +19,7 @@ class CoreContainer {
   static Future<void> init() async {
     // wait for all modules
     await ItemsContainer.init();
+    await ItemContainer.init();
 
     sl.registerLazySingleton<Connectivity>(
       () => Connectivity(),
@@ -50,6 +52,7 @@ class CoreContainer {
   static List<BlocProvider> getBlocProviders() {
     return [
       ...ItemsContainer.getBlocProviders(),
+      ...ItemContainer.getBlocProviders(),
     ];
   }
 

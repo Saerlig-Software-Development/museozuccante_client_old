@@ -80,7 +80,7 @@ class _$AppDatabase extends AppDatabase {
       },
       onCreate: (database, version) async {
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `items` (`id` TEXT, `title` TEXT, `subtitle` TEXT, `poster` TEXT, `body` TEXT, `room_id` TEXT, `room_title` TEXT, `room_floor` INTEGER, `room_number` INTEGER, PRIMARY KEY (`id`))');
+            'CREATE TABLE IF NOT EXISTS `items` (`id` TEXT, `title` TEXT, `subtitle` TEXT, `poster` TEXT, `body` TEXT, `highlighted` INTEGER, `room_id` TEXT, `room_title` TEXT, `room_floor` INTEGER, `room_number` INTEGER, PRIMARY KEY (`id`))');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -107,6 +107,9 @@ class _$ItemsLocalDatasource extends ItemsLocalDatasource {
                   'subtitle': item.subtitle,
                   'poster': item.poster,
                   'body': item.body,
+                  'highlighted': item.highlighted == null
+                      ? null
+                      : (item.highlighted ? 1 : 0),
                   'room_id': item.roomId,
                   'room_title': item.roomTitle,
                   'room_floor': item.roomFloor,
@@ -129,13 +132,21 @@ class _$ItemsLocalDatasource extends ItemsLocalDatasource {
       roomId: row['room_id'] as String,
       roomTitle: row['room_title'] as String,
       roomFloor: row['room_floor'] as int,
-      roomNumber: row['room_number'] as int);
+      roomNumber: row['room_number'] as int,
+      highlighted:
+          row['highlighted'] == null ? null : (row['highlighted'] as int) != 0);
 
   final InsertionAdapter<ItemLocalModel> _itemLocalModelInsertionAdapter;
 
   @override
   Future<List<ItemLocalModel>> getAllItems() async {
     return _queryAdapter.queryList('SELECT * FROM items', mapper: _itemsMapper);
+  }
+
+  @override
+  Future<ItemLocalModel> findItemById(String id) async {
+    return _queryAdapter.query('SELECT * FROM items WHERE id = ?',
+        arguments: <dynamic>[id], mapper: _itemsMapper);
   }
 
   @override

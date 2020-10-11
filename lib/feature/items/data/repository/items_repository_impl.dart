@@ -60,7 +60,7 @@ class ItemsRepositoryImpl implements ItemsRepository {
 
         final localItems =
             remoteItems.map((e) => ItemLocalModel.fromRemoteModel(e)).toList();
-
+        await itemsLocalDatasource.deleteAllItems();
         await itemsLocalDatasource.insertItems(localItems);
 
         sharedPreferences.setInt(
@@ -74,4 +74,35 @@ class ItemsRepositoryImpl implements ItemsRepository {
       return Left(handleError(e));
     }
   }
+
+  @override
+  Future<Either<Failure, ItemDomainModel>> getItem(String id) async {
+    try {
+      final item = await itemsLocalDatasource.findItemById(id);
+
+      if (item != null) {
+        return Right(ItemDomainModel.fromLocalModel(item));
+      } else {
+        return Left(ItemNotFoundFailure());
+      }
+    } catch (e) {
+      return Left(handleError(e));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<ItemDomainModel>>> getItems() async {
+    try {
+      final items = await itemsLocalDatasource.getAllItems();
+      return Right(items
+          .map(
+            (e) => ItemDomainModel.fromLocalModel(e),
+          )
+          .toList());
+    } catch (e) {
+      return Left(handleError(e));
+    }
+  }
 }
+
+class ItemNotFoundFailure extends Failure {}

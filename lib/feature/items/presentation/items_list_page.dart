@@ -34,33 +34,6 @@ class _ItemsListPageState extends State<ItemsListPage> {
               return CircularProgressIndicator();
             },
           ),
-          RaisedButton(onPressed: watchAllItems),
-          RaisedButton(
-            child: Text('Add'),
-            onPressed: () {
-              final ItemsLocalDatasource itemsDao = sl();
-              itemsDao.insertItem(
-                ItemLocalModel(
-                  id: "a1aaadadssaaaadsdashasdahsad",
-                  title: "llo",
-                  subtitle: "dasj",
-                  poster: "sadsd",
-                  body: "dasdsa",
-                  roomFloor: 2,
-                  roomId: "3edsadsa3",
-                  roomNumber: 3,
-                  roomTitle: "dsdsa",
-                ),
-              );
-            },
-          ),
-          RaisedButton(
-            child: Text('del'),
-            onPressed: () {
-              final ItemsLocalDatasource itemsDao = sl();
-              itemsDao.deleteAllItems();
-            },
-          )
         ],
       ),
     );

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:museo_zuccante/core/data/exceptions/failures.dart';
 import 'package:museo_zuccante/core/data/exceptions/successes.dart';
 import 'package:museo_zuccante/feature/items/presentation/states/items_error.dart';
 import 'package:museo_zuccante/feature/items/presentation/states/items_loaded.dart';
@@ -31,6 +32,8 @@ class _ItemsPageState extends State<ItemsPage> {
         },
         child: BlocBuilder<ItemsWatcherBloc, ItemsWatcherState>(
           builder: (context, state) {
+            return ItemsFailureState(failure: Failure());
+
             if (state is ItemsWatcherLoadSuccess) {
               return ItemsLoadedState(items: state.items);
             } else if (state is ItemsWatcherFailure) {

@@ -18,7 +18,7 @@ class DioClient {
     @required Alice alice,
   }) {
     BaseOptions options = BaseOptions(
-      baseUrl: ApiConfig.API_URL,
+      baseUrl: ApiConfig.apiUrl,
       connectTimeout: 10000,
       contentType: ContentType.json.value,
       responseType: ResponseType.json,

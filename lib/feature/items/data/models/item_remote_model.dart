@@ -3,6 +3,7 @@ class ItemRemoteModel {
   String subtitle;
   String poster;
   String body;
+  bool highlighted;
   RoomRemoteModel room;
   String id;
 
@@ -13,6 +14,7 @@ class ItemRemoteModel {
     this.body,
     this.room,
     this.id,
+    this.highlighted,
   });
 
   ItemRemoteModel.fromJson(Map<String, dynamic> json) {
@@ -20,14 +22,13 @@ class ItemRemoteModel {
     subtitle = json['subtitle'];
     poster = json['poster'];
     body = json['body'];
-    room = json['room'] != null
-        ? new RoomRemoteModel.fromJson(json['room'])
-        : null;
+    room = json['room'] != null ? RoomRemoteModel.fromJson(json['room']) : null;
     id = json['id'];
+    highlighted = json['highlighted'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['title'] = this.title;
     data['subtitle'] = this.subtitle;
     data['poster'] = this.poster;
@@ -61,7 +62,7 @@ class RoomRemoteModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['id'] = this.id;
     data['title'] = this.title;
     data['floor'] = this.floor;

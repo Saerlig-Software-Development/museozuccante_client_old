@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:museo_zuccante/core/core_container.dart';
@@ -11,6 +12,11 @@ void main() async {
 
   // Wait for dependency injection
   await CoreContainer.init();
+
+  // trasparent status bar
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    statusBarColor: Colors.transparent,
+  ));
 
   runApp(
     MultiRepositoryProvider(

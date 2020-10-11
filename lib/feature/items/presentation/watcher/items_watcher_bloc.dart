@@ -38,12 +38,6 @@ class ItemsWatcherBloc extends Bloc<ItemsWatcherEvent, ItemsWatcherState> {
       } else if (event.resource.status == Status.loading) {
         yield ItemsWatcherLoading();
       }
-      // yield* event.failureOrItems.fold((failure) async* {
-      //   print(failure);
-      //   yield ItemsWatcherFailure(failure: failure);
-      // }, (items) async* {
-      //   yield ItemsWatcherLoadSuccess(items: items);
-      // });
     }
   }
 
