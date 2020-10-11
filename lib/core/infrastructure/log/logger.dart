@@ -115,12 +115,9 @@ class Logger {
     String methodName,
   }) {
     FLog.error(
-      className:
-          className ?? Trace.from(trace).frames[1].uri.toString() ?? 'Unknown',
-      methodName: methodName ??
-          Trace.from(trace).frames[1].member.toString() ??
-          'Unknown',
-      text: 'Error ${Trace.from(trace).frames[1].member.toString()}',
+      className: className ?? 'Unknown',
+      methodName: methodName ?? 'Unknown',
+      text: 'Error ${Trace.from(trace)}',
       exception: Exception(error.toString()),
       stacktrace: trace,
       dataLogType: type.toString(),
@@ -136,11 +133,8 @@ class Logger {
     String methodName,
   }) {
     FLog.error(
-      className:
-          className ?? Trace.from(trace).frames[1].uri.toString() ?? 'Unknown',
-      methodName: methodName ??
-          Trace.from(trace).frames[1].member.toString() ??
-          'Unknown',
+      className: className ?? 'Unknown',
+      methodName: methodName ?? 'Unknown',
       text: text,
       exception: Exception(error.toString()),
       stacktrace: StackTrace.fromString(Trace.from(trace).toString()),

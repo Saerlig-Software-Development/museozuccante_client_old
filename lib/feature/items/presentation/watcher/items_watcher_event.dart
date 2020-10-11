@@ -7,9 +7,10 @@ abstract class ItemsWatcherEvent {
 class WatchAllStarted extends ItemsWatcherEvent {}
 
 class ItemsReceived extends ItemsWatcherEvent {
-  final Either<Failure, List<ItemDomainModel>> failureOrItems;
+  // final Either<Failure, List<ItemDomainModel>> failureOrItems;
+  final Resource<List<ItemDomainModel>> resource;
 
   ItemsReceived({
-    @required this.failureOrItems,
+    @required this.resource,
   });
 }

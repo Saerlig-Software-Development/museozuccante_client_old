@@ -4,9 +4,9 @@ import 'package:get_it/get_it.dart';
 import 'package:museo_zuccante/feature/items/data/datasources/items_remote_datasource.dart';
 import 'package:museo_zuccante/feature/items/data/repository/items_repository_impl.dart';
 import 'package:museo_zuccante/feature/items/domain/repositories/items_repository.dart';
-import 'package:museo_zuccante/feature/items/domain/usecases/get_items_usecase.dart';
+import 'package:museo_zuccante/feature/items/domain/usecases/update_items_usecase.dart';
 import 'package:museo_zuccante/feature/items/domain/usecases/watch_items_usecase.dart';
-import 'package:museo_zuccante/feature/items/presentation/bloc/items_bloc.dart';
+import 'package:museo_zuccante/feature/items/presentation/updater/items_updater_bloc.dart';
 import 'package:museo_zuccante/feature/items/presentation/watcher/items_watcher_bloc.dart';
 
 final sl = GetIt.instance;
@@ -25,13 +25,13 @@ class ItemsContainer {
     );
 
     sl.registerLazySingleton(
-      () => GetItemsUseCase(
+      () => WatchItemsUseCase(
         itemsRepository: sl(),
       ),
     );
 
     sl.registerLazySingleton(
-      () => WatchItemsUseCase(
+      () => UpdateItemsUseCase(
         itemsRepository: sl(),
       ),
     );
@@ -39,14 +39,14 @@ class ItemsContainer {
 
   static List<BlocProvider> getBlocProviders() {
     return [
-      BlocProvider<ItemsBloc>(
-        create: (BuildContext context) => ItemsBloc(
-          getItemsUseCase: sl(),
-        ),
-      ),
       BlocProvider<ItemsWatcherBloc>(
         create: (BuildContext context) => ItemsWatcherBloc(
-          itemsRepository: sl(),
+          watchItemsUseCase: sl(),
+        ),
+      ),
+      BlocProvider<ItemsUpdaterBloc>(
+        create: (BuildContext context) => ItemsUpdaterBloc(
+          updateItemsUseCase: sl(),
         ),
       ),
     ];

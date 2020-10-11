@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
@@ -5,7 +6,9 @@ import 'package:museo_zuccante/core/presentation/colors.dart';
 import 'package:museo_zuccante/core/presentation/image/mz_image.dart';
 import 'package:museo_zuccante/feature/item/presentation/item_page.dart';
 import 'package:museo_zuccante/feature/items/domain/model/item_domain_model.dart';
-import 'package:museo_zuccante/feature/items/domain/repositories/items_repository.dart';
+import 'package:museo_zuccante/feature/items/presentation/updater/items_updater_bloc.dart';
+
+final GlobalKey<ScaffoldState> itemsPageKey = GlobalKey<ScaffoldState>();
 
 class ItemsLoadedState extends StatefulWidget {
   final List<ItemDomainModel> items;
@@ -27,7 +30,7 @@ class _ItemsLoadedStateState extends State<ItemsLoadedState> {
         backgroundColor: MZColors.primary,
         color: Colors.white,
         onRefresh: () async {
-          await context.repository<ItemsRepository>().updateItems();
+          context.bloc<ItemsUpdaterBloc>().add(UpdateItems());
         },
         child: SingleChildScrollView(
           physics: AlwaysScrollableScrollPhysics(),
@@ -58,45 +61,94 @@ class _ItemsLoadedStateState extends State<ItemsLoadedState> {
       child: SafeArea(
         child: Padding(
           padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0.0),
-          child: Container(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-            width: double.infinity,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(8.0),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.2),
-                  spreadRadius: 2,
-                  blurRadius: 5,
-                  offset: Offset(0, 1), // changes position of shadow
-                ),
-              ],
-            ),
-            child: Row(
-              children: [
-                Icon(Icons.search),
-                Flexible(
-                  child: TextField(
-                    decoration: InputDecoration(
-                      border: InputBorder.none,
-                      focusedBorder: InputBorder.none,
-                      enabledBorder: InputBorder.none,
-                      errorBorder: InputBorder.none,
-                      disabledBorder: InputBorder.none,
-                      contentPadding: EdgeInsets.only(
-                        left: 15,
-                        bottom: 11,
-                        top: 11,
-                        right: 15,
+          child: Row(
+            children: [
+              Expanded(
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 16.0, vertical: 8.0),
+                  // width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(8.0),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.2),
+                        spreadRadius: 2,
+                        blurRadius: 5,
+                        offset: Offset(0, 1), // changes position of shadow
                       ),
-                      hintText: 'Search an item',
+                    ],
+                  ),
+                  child: Row(
+                    children: [
+                      Icon(Icons.search),
+                      Flexible(
+                        child: TextField(
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            focusedBorder: InputBorder.none,
+                            enabledBorder: InputBorder.none,
+                            errorBorder: InputBorder.none,
+                            disabledBorder: InputBorder.none,
+                            contentPadding: EdgeInsets.only(
+                              left: 15,
+                              bottom: 11,
+                              top: 11,
+                              right: 15,
+                            ),
+                            hintText: 'Search an item',
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(
+                width: 8,
+              ),
+              Material(
+                borderRadius: BorderRadius.circular(8.0),
+                child: Ink(
+                  decoration: BoxDecoration(
+                    color: MZColors.alternativeBackgroundColor,
+                    borderRadius: BorderRadius.circular(8.0),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.2),
+                        spreadRadius: 2,
+                        blurRadius: 5,
+                        offset: Offset(0, 1), // changes position of shadow
+                      ),
+                    ],
+                  ),
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(8.0),
+                    onTap: () {},
+                    child: Container(
+                      padding: EdgeInsets.all(13.0),
+                      decoration: BoxDecoration(
+                        // color: MZColors.alternativeBackgroundColor,
+                        borderRadius: BorderRadius.circular(8.0),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.2),
+                            spreadRadius: 2,
+                            blurRadius: 5,
+                            offset: Offset(0, 1), // changes position of shadow
+                          ),
+                        ],
+                      ),
+                      child: Icon(
+                        CupertinoIcons.qrcode_viewfinder,
+                        size: 35,
+                      ),
                     ),
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
@@ -399,7 +451,7 @@ class _ItemsLoadedStateState extends State<ItemsLoadedState> {
     );
   }
 
-  void requestItems() {
-    context.repository<ItemsRepository>().updateItems();
-  }
+  // void requestItems() {
+  //   context.repository<ItemsRepository>().updateItems();
+  // }
 }
