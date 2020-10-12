@@ -38,6 +38,7 @@ class MuseumApp extends StatelessWidget {
         // brightness: Brightness.dark,
         // scaffoldBackgroundColor: MZColors.backgroundColor,
         // fontFamily: 'Gilroy',
+        accentColor: MZColors.primary,
         textTheme: GoogleFonts.varelaRoundTextTheme(
           Theme.of(context).textTheme,
         ),

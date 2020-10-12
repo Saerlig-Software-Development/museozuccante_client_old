@@ -40,7 +40,12 @@ dev_dependencies:
     sdk: flutter
   build_runner: ^1.7.3
   floor_generator: ^0.14.0
+  flutter_native_splash: ^0.1.9
 
+flutter_native_splash:
+  image: assets/images/splash.png
+  color: "ffffff"
+  
 flutter:
   uses-material-design: true
 
