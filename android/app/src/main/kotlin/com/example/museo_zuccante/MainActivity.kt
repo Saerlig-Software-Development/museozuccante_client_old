@@ -1,4 +1,4 @@
-package com.example.museo_zuccante
+package com.riccardocalligaro.museo_zuccante
 
 import io.flutter.embedding.android.FlutterActivity
 
