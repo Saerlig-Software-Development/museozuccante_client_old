@@ -71,7 +71,7 @@ class ItemsRepositoryImpl implements ItemsRepository {
           }
         }
 
-        await itemsLocalDatasource.deleteAllItems();
+        // await itemsLocalDatasource.deleteAllItems();
 
         await itemsLocalDatasource.insertItems(
           remoteItems.map((e) => ItemLocalModel.fromRemoteModel(e)).toList(),

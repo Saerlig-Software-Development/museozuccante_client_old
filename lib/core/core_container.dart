@@ -8,6 +8,7 @@ import 'package:museo_zuccante/core/infrastructure/network_info.dart';
 import 'package:museo_zuccante/feature/item/item_container.dart';
 import 'package:museo_zuccante/feature/items/domain/repositories/items_repository.dart';
 import 'package:museo_zuccante/feature/items/items_container.dart';
+import 'package:museo_zuccante/feature/rooms/rooms_container.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'data/database/museum_database.dart';
@@ -20,6 +21,7 @@ class CoreContainer {
     // wait for all modules
     await ItemsContainer.init();
     await ItemContainer.init();
+    await RoomsContainer.init();
 
     sl.registerLazySingleton<Connectivity>(
       () => Connectivity(),
@@ -47,12 +49,14 @@ class CoreContainer {
     sl.registerLazySingleton(() => database);
 
     sl.registerLazySingleton(() => database.itemsDao);
+    sl.registerLazySingleton(() => database.roomsDao);
   }
 
   static List<BlocProvider> getBlocProviders() {
     return [
       ...ItemsContainer.getBlocProviders(),
       ...ItemContainer.getBlocProviders(),
+      ...RoomsContainer.getBlocProviders(),
     ];
   }
 

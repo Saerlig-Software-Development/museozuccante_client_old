@@ -62,6 +62,8 @@ class _$AppDatabase extends AppDatabase {
 
   ItemsLocalDatasource _itemsDaoInstance;
 
+  RoomsLocalDatasource _roomsDaoInstance;
+
   Future<sqflite.Database> open(String path, List<Migration> migrations,
       [Callback callback]) async {
     final databaseOptions = sqflite.OpenDatabaseOptions(
@@ -81,6 +83,8 @@ class _$AppDatabase extends AppDatabase {
       onCreate: (database, version) async {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `items` (`id` TEXT, `title` TEXT, `subtitle` TEXT, `poster` TEXT, `body` TEXT, `highlighted` INTEGER, `room_id` TEXT, `room_title` TEXT, `room_floor` INTEGER, `room_number` INTEGER, PRIMARY KEY (`id`))');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `rooms` (`id` TEXT, `title` TEXT, `floor` INTEGER, `number` INTEGER, `offset_x` REAL, `offset_y` REAL, PRIMARY KEY (`id`))');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -92,6 +96,12 @@ class _$AppDatabase extends AppDatabase {
   ItemsLocalDatasource get itemsDao {
     return _itemsDaoInstance ??=
         _$ItemsLocalDatasource(database, changeListener);
+  }
+
+  @override
+  RoomsLocalDatasource get roomsDao {
+    return _roomsDaoInstance ??=
+        _$RoomsLocalDatasource(database, changeListener);
   }
 }
 
@@ -203,5 +213,92 @@ class _$ItemsLocalDatasource extends ItemsLocalDatasource {
   @override
   Future<void> deleteItems(List<ItemLocalModel> items) async {
     await _itemLocalModelDeletionAdapter.deleteList(items);
+  }
+}
+
+class _$RoomsLocalDatasource extends RoomsLocalDatasource {
+  _$RoomsLocalDatasource(this.database, this.changeListener)
+      : _queryAdapter = QueryAdapter(database, changeListener),
+        _roomLocalModelInsertionAdapter = InsertionAdapter(
+            database,
+            'rooms',
+            (RoomLocalModel item) => <String, dynamic>{
+                  'id': item.id,
+                  'title': item.title,
+                  'floor': item.floor,
+                  'number': item.number,
+                  'offset_x': item.offsetX,
+                  'offset_y': item.offsetY
+                },
+            changeListener),
+        _roomLocalModelDeletionAdapter = DeletionAdapter(
+            database,
+            'rooms',
+            ['id'],
+            (RoomLocalModel item) => <String, dynamic>{
+                  'id': item.id,
+                  'title': item.title,
+                  'floor': item.floor,
+                  'number': item.number,
+                  'offset_x': item.offsetX,
+                  'offset_y': item.offsetY
+                },
+            changeListener);
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  static final _roomsMapper = (Map<String, dynamic> row) => RoomLocalModel(
+      id: row['id'] as String,
+      title: row['title'] as String,
+      floor: row['floor'] as int,
+      number: row['number'] as int,
+      offsetX: row['offset_x'] as double,
+      offsetY: row['offset_y'] as double);
+
+  final InsertionAdapter<RoomLocalModel> _roomLocalModelInsertionAdapter;
+
+  final DeletionAdapter<RoomLocalModel> _roomLocalModelDeletionAdapter;
+
+  @override
+  Future<List<RoomLocalModel>> getRooms() async {
+    return _queryAdapter.queryList('SELECT * FROM rooms', mapper: _roomsMapper);
+  }
+
+  @override
+  Future<RoomLocalModel> findRoomById(String id) async {
+    return _queryAdapter.query('SELECT * FROM rooms WHERE id = ?',
+        arguments: <dynamic>[id], mapper: _roomsMapper);
+  }
+
+  @override
+  Stream<List<RoomLocalModel>> watchRooms() {
+    return _queryAdapter.queryListStream('SELECT * FROM rooms',
+        queryableName: 'rooms', isView: false, mapper: _roomsMapper);
+  }
+
+  @override
+  Future<void> deleteAllRooms() async {
+    await _queryAdapter.queryNoReturn('DELETE FROM rooms');
+  }
+
+  @override
+  Future<void> insertRoom(RoomLocalModel room) async {
+    await _roomLocalModelInsertionAdapter.insert(
+        room, OnConflictStrategy.replace);
+  }
+
+  @override
+  Future<List<int>> insertRooms(List<RoomLocalModel> rooms) {
+    return _roomLocalModelInsertionAdapter.insertListAndReturnIds(
+        rooms, OnConflictStrategy.replace);
+  }
+
+  @override
+  Future<void> deleteRooms(List<RoomLocalModel> rooms) async {
+    await _roomLocalModelDeletionAdapter.deleteList(rooms);
   }
 }

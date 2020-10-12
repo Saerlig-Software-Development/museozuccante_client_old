@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:museo_zuccante/core/presentation/colors.dart';
-import 'package:museo_zuccante/feature/items/presentation/items_list_page.dart';
 import 'package:museo_zuccante/feature/items/presentation/items_page.dart';
+import 'package:museo_zuccante/feature/list/list_page.dart';
+import 'package:museo_zuccante/feature/map/presentation/map_page.dart';
 import 'package:museo_zuccante/feature/settings/settings_page.dart';
 
 class NavigatorPage extends StatefulWidget {
@@ -28,16 +29,8 @@ class _NavigatorPageState extends State<NavigatorPage> {
               });
             },
           ),
-          ItemsListPage(),
-          Scaffold(
-            body: Center(
-              child: Icon(
-                Icons.build,
-                size: 81,
-                color: MZColors.primary,
-              ),
-            ),
-          ),
+          ListPage(),
+          MapPage(),
           SettingsPage(),
         ],
       ),

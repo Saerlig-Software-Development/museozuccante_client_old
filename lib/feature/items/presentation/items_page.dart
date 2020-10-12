@@ -40,10 +40,6 @@ class _ItemsPageState extends State<ItemsPage> {
               if (state.items.length == 0) {
                 return ItemsLoadingState();
               }
-
-              // return SafeArea(
-              //     child: Text(state.items.map((e) => e.title).toString()));
-
               return ItemsLoadedState(
                 items: state.items,
                 goToList: widget.goToList,
