@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:museo_zuccante/core/presentation/colors.dart';
 import 'package:museo_zuccante/core/presentation/image/mz_image.dart';
+import 'package:museo_zuccante/core/presentation/no_glow_behavior.dart';
 import 'package:museo_zuccante/feature/item/presentation/item_page.dart';
 import 'package:museo_zuccante/feature/items/domain/model/item_domain_model.dart';
 import 'package:museo_zuccante/feature/items/presentation/search/search_bloc.dart';
@@ -288,25 +289,28 @@ class _ItemsLoadedStateState extends State<ItemsLoadedState> {
         // Text(items.map((e) => e.title).toString()),
         SizedBox(
           height: 250,
-          child: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              children: List.generate(items.length, (index) {
-                final item = items[index];
-                if (index == 0) {
-                  return Padding(
-                    padding: const EdgeInsets.only(left: 16.0),
-                    child: buildTopVisitedCard(item: item),
-                  );
-                } else if (index == 15) {
-                  return Padding(
-                    padding: const EdgeInsets.only(right: 16.0),
-                    child: buildTopVisitedCard(item: item),
-                  );
-                }
+          child: ScrollConfiguration(
+            behavior: NoGlowBehavior(),
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: List.generate(items.length, (index) {
+                  final item = items[index];
+                  if (index == 0) {
+                    return Padding(
+                      padding: const EdgeInsets.only(left: 16.0),
+                      child: buildTopVisitedCard(item: item),
+                    );
+                  } else if (index == 15) {
+                    return Padding(
+                      padding: const EdgeInsets.only(right: 16.0),
+                      child: buildTopVisitedCard(item: item),
+                    );
+                  }
 
-                return buildTopVisitedCard(item: item);
-              }),
+                  return buildTopVisitedCard(item: item);
+                }),
+              ),
             ),
           ),
         ),

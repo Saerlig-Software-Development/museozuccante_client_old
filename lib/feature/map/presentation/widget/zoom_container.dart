@@ -71,9 +71,6 @@ class _ZoomContainerState extends State<ZoomContainer> {
                 padding: EdgeInsets.all(15.0),
                 shape: CircleBorder(),
               ),
-              SizedBox(
-                width: 5,
-              ),
               RawMaterialButton(
                 onPressed: () {
                   HapticFeedback.vibrate();

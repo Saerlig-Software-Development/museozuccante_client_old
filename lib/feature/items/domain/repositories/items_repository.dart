@@ -13,4 +13,8 @@ abstract class ItemsRepository {
   Future<Either<Failure, ItemDomainModel>> getItem(String id);
 
   Future<Either<Failure, List<ItemDomainModel>>> getItems();
+
+  Future<Either<Failure, List<ItemDomainModel>>> getRoomItems({
+    @required String roomId,
+  });
 }

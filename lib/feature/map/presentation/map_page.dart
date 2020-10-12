@@ -20,6 +20,7 @@ class MapPage extends StatelessWidget {
                 size: 33,
                 color: Colors.red,
               ),
+              title: 'Aula 22',
               offset: Offset(0.3, 0),
               size: Size(10, 10),
             ),

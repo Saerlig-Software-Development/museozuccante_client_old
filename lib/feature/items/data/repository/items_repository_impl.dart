@@ -120,6 +120,21 @@ class ItemsRepositoryImpl implements ItemsRepository {
       return Left(handleError(e));
     }
   }
+
+  @override
+  Future<Either<Failure, List<ItemDomainModel>>> getRoomItems(
+      {String roomId}) async {
+    try {
+      final items = await itemsLocalDatasource.getRoomItems(roomId);
+      return Right(items
+          .map(
+            (e) => ItemDomainModel.fromLocalModel(e),
+          )
+          .toList());
+    } catch (e) {
+      return Left(handleError(e));
+    }
+  }
 }
 
 class ItemNotFoundFailure extends Failure {}

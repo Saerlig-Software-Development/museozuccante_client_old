@@ -181,6 +181,12 @@ class _$ItemsLocalDatasource extends ItemsLocalDatasource {
   }
 
   @override
+  Future<List<ItemLocalModel>> getRoomItems(String roomId) async {
+    return _queryAdapter.queryList('SELECT * FROM items WHERE room_id = ?',
+        arguments: <dynamic>[roomId], mapper: _itemsMapper);
+  }
+
+  @override
   Stream<List<ItemLocalModel>> watchAllItems() {
     return _queryAdapter.queryListStream('SELECT * FROM items',
         queryableName: 'items', isView: false, mapper: _itemsMapper);

@@ -9,9 +9,12 @@ class MapObject {
   /// Size of this object for the zoomLevel == 1
   final Size size;
 
+  final String title;
+
   MapObject({
     @required this.child,
     @required this.offset,
     this.size,
+    @required this.title,
   });
 }

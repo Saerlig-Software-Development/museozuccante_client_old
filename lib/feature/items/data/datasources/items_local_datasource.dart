@@ -9,6 +9,9 @@ abstract class ItemsLocalDatasource {
   @Query('SELECT * FROM items WHERE id = :id')
   Future<ItemLocalModel> findItemById(String id);
 
+  @Query('SELECT * FROM items WHERE room_id = :roomId')
+  Future<List<ItemLocalModel>> getRoomItems(String roomId);
+
   @Query("SELECT * FROM items")
   Stream<List<ItemLocalModel>> watchAllItems();
 

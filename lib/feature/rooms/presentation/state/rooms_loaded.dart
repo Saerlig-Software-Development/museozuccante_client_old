@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:museo_zuccante/core/presentation/no_glow_behavior.dart';
+import 'package:museo_zuccante/feature/room/presentation/room_page.dart';
 import 'package:museo_zuccante/feature/rooms/domain/model/room_domain_model.dart';
 
 class RoomsLoaded extends StatelessWidget {
@@ -61,7 +62,16 @@ class RoomsLoaded extends StatelessWidget {
                       title: Text(item.title),
                       subtitle: Text(
                           'Aula ${item.number}${item.floor >= 1 ? ' - ${item.floor} piano' : ''}'),
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return RoomPage(
+                                  roomId: item.id, name: item.title);
+                            },
+                          ),
+                        );
+                      },
                     );
                   },
                 ),

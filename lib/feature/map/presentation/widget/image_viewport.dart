@@ -129,9 +129,9 @@ class _ImageViewportState extends State<ImageViewport> {
           _objects.add(object);
         });
 
-    void removeMapObject(MapObject object) => setState(() {
-          _objects.remove(object);
-        });
+    // void removeMapObject(MapObject object) => setState(() {
+    //       _objects.remove(object);
+    //     });
 
     List<Widget> buildObjects() {
       return _objects
@@ -147,31 +147,38 @@ class _ImageViewportState extends State<ImageViewport> {
                       : (object.size.height * _zoomLevel) / 2),
               child: GestureDetector(
                 onTapUp: (TapUpDetails details) {
-                  MapObject info;
-                  info = MapObject(
-                    child: DecoratedBox(
-                      decoration: BoxDecoration(
-                          border: Border.all(
-                        width: 1,
-                      )),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          Text("Close me"),
-                          SizedBox(
-                            width: 5,
-                          ),
-                          IconButton(
-                            icon: Icon(Icons.close),
-                            onPressed: () => removeMapObject(info),
-                          ),
-                        ],
-                      ),
-                    ),
-                    offset: object.offset,
-                    size: null,
-                  );
-                  addMapObject(info);
+                  showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: Text("Tapped ${object.title}"),
+                        );
+                      });
+                  // MapObject info;
+                  // info = MapObject(
+                  //   child: DecoratedBox(
+                  //     decoration: BoxDecoration(
+                  //         border: Border.all(
+                  //       width: 1,
+                  //     )),
+                  //     child: Row(
+                  //       mainAxisSize: MainAxisSize.min,
+                  //       children: <Widget>[
+                  //         Text("Close me"),
+                  //         SizedBox(
+                  //           width: 5,
+                  //         ),
+                  //         IconButton(
+                  //           icon: Icon(Icons.close),
+                  //           onPressed: () => removeMapObject(info),
+                  //         ),
+                  //       ],
+                  //     ),
+                  //   ),
+                  //   offset: object.offset,
+                  //   size: null,
+                  // );
+                  // addMapObject(info);
                 },
                 child: Container(
                   width: object.size == null
@@ -225,6 +232,7 @@ class _ImageViewportState extends State<ImageViewport> {
                     ),
                     offset: newObjectOffset,
                     size: Size(10, 10),
+                    title: '',
                   );
                   addMapObject(newObject);
                 },
