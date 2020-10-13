@@ -16,6 +16,7 @@ void main() async {
   // trasparent status bar
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
     statusBarColor: Colors.transparent,
+    // statusBarBrightness: Brightness.dark,
   ));
 
   runApp(
@@ -33,6 +34,7 @@ class MuseumApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Museo Zuccante',
       theme: ThemeData(
         accentColor: MZColors.primary,

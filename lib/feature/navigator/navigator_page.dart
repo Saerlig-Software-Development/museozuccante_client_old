@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:museo_zuccante/core/presentation/colors.dart';
 import 'package:museo_zuccante/feature/items/presentation/items_page.dart';
 import 'package:museo_zuccante/feature/list/list_page.dart';
@@ -46,6 +47,17 @@ class _NavigatorPageState extends State<NavigatorPage> {
       showSelectedLabels: false,
       showUnselectedLabels: false,
       onTap: (int index) {
+        if (index == 0) {
+          SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+            statusBarColor: Colors.transparent,
+            statusBarBrightness: Brightness.dark,
+          ));
+        } else {
+          SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+            statusBarColor: Colors.transparent,
+            statusBarBrightness: Brightness.light,
+          ));
+        }
         setState(() {
           _currentIndex = index;
         });

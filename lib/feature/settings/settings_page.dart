@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:museo_zuccante/core/core_container.dart';
 import 'package:museo_zuccante/core/presentation/colors.dart';
+import 'package:museo_zuccante/feature/items/data/datasources/items_local_datasource.dart';
+import 'package:museo_zuccante/feature/items/presentation/updater/items_updater_bloc.dart';
+import 'package:museo_zuccante/feature/rooms/data/datasources/rooms_local_datasource.dart';
+import 'package:museo_zuccante/feature/rooms/presentation/updater/rooms_updater_bloc.dart';
 import 'package:museo_zuccante/feature/settings/views/credits_view.dart';
 
 class SettingsPage extends StatelessWidget {
@@ -28,7 +34,16 @@ class SettingsPage extends StatelessWidget {
                 title: Text('Cancel local data'),
                 subtitle:
                     Text('Erase all the downloaded data of the application'),
-                onTap: () {},
+                onTap: () async {
+                  final ItemsLocalDatasource itemsDao = sl();
+                  await itemsDao.deleteAllItems();
+
+                  final RoomsLocalDatasource roomsDao = sl();
+                  await roomsDao.deleteAllRooms();
+
+                  BlocProvider.of<ItemsUpdaterBloc>(context).add(UpdateItems());
+                  BlocProvider.of<RoomsUpdaterBloc>(context).add(UpdateRooms());
+                },
               ),
               ListTile(
                 title: Text('Informations about the app'),
