@@ -4,6 +4,7 @@ import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:museo_zuccante/feature/map/presentation/model/map_object.dart';
 import 'package:museo_zuccante/feature/map/presentation/widget/map_painter.dart';
+import 'package:museo_zuccante/feature/room/presentation/room_page.dart';
 
 class ImageViewport extends StatefulWidget {
   final double zoomLevel;
@@ -147,13 +148,17 @@ class _ImageViewportState extends State<ImageViewport> {
                       : (object.size.height * _zoomLevel) / 2),
               child: GestureDetector(
                 onTapUp: (TapUpDetails details) {
-                  showDialog(
-                      context: context,
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
                       builder: (context) {
-                        return AlertDialog(
-                          title: Text("Tapped ${object.title}"),
+                        return RoomPage(
+                          roomId: object.room.id,
+                          name: object.room.title,
+                          disableHero: true,
                         );
-                      });
+                      },
+                    ),
+                  );
                   // MapObject info;
                   // info = MapObject(
                   //   child: DecoratedBox(
@@ -227,12 +232,10 @@ class _ImageViewportState extends State<ImageViewport> {
                       box.globalToLocal(details.globalPosition);
                   Offset newObjectOffset = _localToGlobalOffset(localPosition);
                   MapObject newObject = MapObject(
-                    child: Container(
-                      color: Colors.blue,
-                    ),
+                    room: null,
                     offset: newObjectOffset,
                     size: Size(10, 10),
-                    title: '',
+                    child: Container(),
                   );
                   addMapObject(newObject);
                 },

@@ -12,11 +12,13 @@ import 'package:museo_zuccante/feature/rooms/presentation/updater/rooms_updater_
 class RoomPage extends StatefulWidget {
   final String name;
   final String roomId;
+  final bool disableHero;
 
   RoomPage({
     Key key,
     @required this.roomId,
     @required this.name,
+    this.disableHero = false,
   }) : super(key: key);
 
   @override
@@ -83,6 +85,7 @@ class _RoomPageState extends State<RoomPage> {
           return ItemVerticalCard(
             item: item,
             fromHome: false,
+            disableHero: widget.disableHero,
           );
         },
       ),

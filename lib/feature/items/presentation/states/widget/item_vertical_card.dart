@@ -7,11 +7,13 @@ import 'package:museo_zuccante/feature/items/domain/model/item_domain_model.dart
 class ItemVerticalCard extends StatefulWidget {
   final ItemDomainModel item;
   final bool fromHome;
+  final bool disableHero;
 
   ItemVerticalCard({
     Key key,
     @required this.item,
     this.fromHome = true,
+    this.disableHero = false,
   }) : super(key: key);
 
   @override
@@ -58,14 +60,18 @@ class _ItemVerticalCardState extends State<ItemVerticalCard> {
                       height: 80,
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(8.0),
-                        child: Hero(
-                          tag: widget.fromHome
-                              ? 'item${widget.item.id}'
-                              : 'item-list${widget.item.id}',
-                          child: MzImage(
-                            widget.item.poster,
-                          ),
-                        ),
+                        child: widget.disableHero
+                            ? MzImage(
+                                widget.item.poster,
+                              )
+                            : Hero(
+                                tag: widget.fromHome
+                                    ? 'item${widget.item.id}'
+                                    : 'item-list${widget.item.id}',
+                                child: MzImage(
+                                  widget.item.poster,
+                                ),
+                              ),
                       ),
                     ),
                     // Expanded(

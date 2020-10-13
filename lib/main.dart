@@ -35,20 +35,13 @@ class MuseumApp extends StatelessWidget {
     return MaterialApp(
       title: 'Museo Zuccante',
       theme: ThemeData(
-        // brightness: Brightness.dark,
-        // scaffoldBackgroundColor: MZColors.backgroundColor,
-        // fontFamily: 'Gilroy',
         accentColor: MZColors.primary,
         textTheme: GoogleFonts.varelaRoundTextTheme(
           Theme.of(context).textTheme,
         ),
-
-        // primarySwatch: MZColors.primary,
         primaryColor: MZColors.primary,
         visualDensity: VisualDensity.adaptivePlatformDensity,
-        iconTheme: Theme.of(context).iconTheme.copyWith(
-              color: Colors.black,
-            ),
+        iconTheme: Theme.of(context).iconTheme.copyWith(color: Colors.black),
       ),
       home: NavigatorPage(),
     );

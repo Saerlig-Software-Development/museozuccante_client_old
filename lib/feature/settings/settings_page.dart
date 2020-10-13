@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:museo_zuccante/core/presentation/colors.dart';
+import 'package:museo_zuccante/feature/settings/views/credits_view.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({Key key}) : super(key: key);
@@ -30,21 +31,32 @@ class SettingsPage extends StatelessWidget {
                 onTap: () {},
               ),
               ListTile(
-                title: Text('Theme'),
-                onTap: () {},
-              ),
-              ListTile(
-                title: Text('Theme'),
-                onTap: () {},
-              ),
-              ListTile(
                 title: Text('Informations about the app'),
-                onTap: () {},
+                onTap: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AboutDialog(
+                        applicationIcon: Icon(Icons.museum_rounded),
+                        applicationVersion: '0.0.1',
+                        children: [
+                          Text("All rights reserved"),
+                        ],
+                      );
+                    },
+                  );
+                },
               ),
               ListTile(
                 title: Text('Credits'),
                 subtitle: Text('Who made the app'),
-                onTap: () {},
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) {
+                      return CreditsView();
+                    }),
+                  );
+                },
               )
             ],
           ),

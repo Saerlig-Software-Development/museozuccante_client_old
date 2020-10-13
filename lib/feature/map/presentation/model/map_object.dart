@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:museo_zuccante/feature/rooms/domain/model/room_domain_model.dart';
 
 class MapObject {
   final Widget child;
@@ -9,12 +10,16 @@ class MapObject {
   /// Size of this object for the zoomLevel == 1
   final Size size;
 
-  final String title;
+  // final String id;
+
+  // final String name;
+
+  final RoomDomainModel room;
 
   MapObject({
     @required this.child,
     @required this.offset,
     this.size,
-    @required this.title,
+    @required this.room,
   });
 }
