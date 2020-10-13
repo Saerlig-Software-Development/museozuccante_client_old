@@ -95,8 +95,7 @@ class _ItemsListPageState extends State<ItemsListPage> {
             shrinkWrap: true,
             itemCount: items.length - 2,
             itemBuilder: (context, index) {
-              items = items.sublist(2, items.length);
-              final item = items[index];
+              final item = items[index + 2];
               return ItemVerticalCard(
                 item: item,
                 fromHome: false,

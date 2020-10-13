@@ -32,6 +32,7 @@ class _NavigatorPageState extends State<NavigatorPage> {
           ListPage(),
           MapPage(),
           SettingsPage(),
+          // Text("dssda")
         ],
       ),
     );

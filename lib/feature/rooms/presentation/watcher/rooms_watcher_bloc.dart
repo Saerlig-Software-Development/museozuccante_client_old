@@ -21,7 +21,6 @@ class RoomsWatcherBloc extends Bloc<RoomsWatcherEvent, RoomsWatcherState> {
   }) : super(RoomsWatcherInitial()) {
     _roomsStreamSubscription =
         watchRoomsUseCase.execute(NoParams()).listen((resource) {
-      print("got room values");
       add(RoomsReceived(resource: resource));
     });
   }

@@ -23,6 +23,19 @@ class RoomsLoaded extends StatelessWidget {
       pages += 2;
     }
 
+    List<List<RoomDomainModel>> roomsList = [];
+    List roomsCopy = rooms.map((element) => element).toList();
+
+    for (int i = 0; i < pages; i++) {
+      if (roomsCopy.length >= 2) {
+        roomsList.add(roomsCopy.take(2).toList());
+        roomsCopy.removeRange(0, 2);
+      } else if (roomsCopy.length == 1) {
+        roomsList.add(roomsCopy.take(1).toList());
+        roomsCopy.removeRange(0, 1);
+      }
+    }
+
     return Padding(
       padding: pages == 1 ? const EdgeInsets.all(8.0) : EdgeInsets.zero,
       child: ScrollConfiguration(
@@ -34,8 +47,7 @@ class RoomsLoaded extends StatelessWidget {
             initialPage: 1,
           ),
           itemCount: pages,
-          itemBuilder: (context, index) {
-            final items = rooms.take(5).toList();
+          itemBuilder: (context, pageIndex) {
             return Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
@@ -55,9 +67,9 @@ class RoomsLoaded extends StatelessWidget {
                 child: ListView.builder(
                   physics: NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
-                  itemCount: items.length,
+                  itemCount: roomsList[pageIndex].length,
                   itemBuilder: (context, index) {
-                    final item = items[index];
+                    final item = roomsList[pageIndex][index];
                     return ListTile(
                       title: Text(item.title),
                       subtitle: Text(

@@ -16,15 +16,23 @@ class _RoomsListState extends State<RoomsList> {
   @override
   void initState() {
     super.initState();
+
+    print("Watch all started");
     context.bloc<RoomsWatcherBloc>().add(WatchAllStarted());
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocBuilder<RoomsWatcherBloc, RoomsWatcherState>(
+      body: BlocConsumer<RoomsWatcherBloc, RoomsWatcherState>(
+        listener: (context, state) {
+          if (state is RoomsWatcherLoadSuccess && state.rooms.length == 0) {
+            updateRooms();
+          }
+        },
         builder: (context, state) {
           if (state is RoomsWatcherLoadSuccess) {
+            // return Text(state.rooms.length.toString());
             if (state.rooms.length == 0) {
               return buildLoading();
             }

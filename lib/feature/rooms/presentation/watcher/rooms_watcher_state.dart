@@ -11,7 +11,7 @@ class RoomsWatcherLoading extends RoomsWatcherState {}
 class RoomsWatcherLoadSuccess extends RoomsWatcherState {
   final List<RoomDomainModel> rooms;
 
-  RoomsWatcherLoadSuccess({
+  const RoomsWatcherLoadSuccess({
     @required this.rooms,
   });
 }
