@@ -7,6 +7,8 @@ A Flutter application for the school museum made by:
 - Leone Bacciu - **Backend (Django + Docker)**
 - Diego Caspi - **Backend (Django)**
 
+![Screens](https://i.imgur.com/8bpWS9o.png)
+
 # Documentation
 
 ## Libraries
