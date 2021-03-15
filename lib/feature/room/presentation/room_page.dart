@@ -29,7 +29,8 @@ class _RoomPageState extends State<RoomPage> {
   @override
   void initState() {
     super.initState();
-    context.bloc<RoomItemsBloc>().add(GetRoomItems(roomId: widget.roomId));
+    BlocProvider.of<RoomItemsBloc>(context)
+        .add(GetRoomItems(roomId: widget.roomId));
   }
 
   @override
@@ -37,6 +38,7 @@ class _RoomPageState extends State<RoomPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.name),
+        brightness: Brightness.dark,
       ),
       body: BlocBuilder<RoomItemsBloc, RoomItemsState>(
         builder: (context, state) {
@@ -64,8 +66,8 @@ class _RoomPageState extends State<RoomPage> {
   }
 
   void updateRooms() {
-    context.bloc<RoomsUpdaterBloc>().add(UpdateRooms());
-    context.bloc<ItemsUpdaterBloc>().add(UpdateItems());
+    BlocProvider.of<RoomsUpdaterBloc>(context).add(UpdateRooms());
+    BlocProvider.of<ItemsUpdaterBloc>(context).add(UpdateItems());
   }
 
   Widget buildItemsList({

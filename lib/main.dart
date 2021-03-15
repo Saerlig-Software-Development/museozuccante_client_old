@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:museo_zuccante/core/core_container.dart';
+import 'package:museo_zuccante/core/infrastructure/log/logger.dart';
 import 'package:museo_zuccante/core/presentation/colors.dart';
 import 'package:museo_zuccante/feature/navigator/navigator_page.dart';
 
@@ -10,13 +11,15 @@ void main() async {
   // Before dependency injection, for shared preferences
   WidgetsFlutterBinding.ensureInitialized();
 
+  Logger.initialize();
+
   // Wait for dependency injection
   await CoreContainer.init();
 
   // trasparent status bar
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
     statusBarColor: Colors.transparent,
-    // statusBarBrightness: Brightness.dark,
+    statusBarBrightness: Brightness.dark,
   ));
 
   runApp(

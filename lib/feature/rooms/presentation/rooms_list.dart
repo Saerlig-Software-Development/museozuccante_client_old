@@ -18,7 +18,7 @@ class _RoomsListState extends State<RoomsList> {
     super.initState();
 
     print("Watch all started");
-    context.bloc<RoomsWatcherBloc>().add(WatchAllStarted());
+    BlocProvider.of<RoomsWatcherBloc>(context).add(WatchAllStarted());
   }
 
   @override
@@ -58,6 +58,6 @@ class _RoomsListState extends State<RoomsList> {
   }
 
   void updateRooms() {
-    context.bloc<RoomsUpdaterBloc>().add(UpdateRooms());
+    BlocProvider.of<RoomsUpdaterBloc>(context).add(UpdateRooms());
   }
 }

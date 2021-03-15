@@ -152,44 +152,84 @@ class _$ItemsLocalDatasource extends ItemsLocalDatasource {
 
   final QueryAdapter _queryAdapter;
 
-  static final _itemsMapper = (Map<String, dynamic> row) => ItemLocalModel(
-      id: row['id'] as String,
-      title: row['title'] as String,
-      subtitle: row['subtitle'] as String,
-      poster: row['poster'] as String,
-      body: row['body'] as String,
-      roomId: row['room_id'] as String,
-      roomTitle: row['room_title'] as String,
-      roomFloor: row['room_floor'] as int,
-      roomNumber: row['room_number'] as int,
-      highlighted:
-          row['highlighted'] == null ? null : (row['highlighted'] as int) != 0);
-
   final InsertionAdapter<ItemLocalModel> _itemLocalModelInsertionAdapter;
 
   final DeletionAdapter<ItemLocalModel> _itemLocalModelDeletionAdapter;
 
   @override
   Future<List<ItemLocalModel>> getItems() async {
-    return _queryAdapter.queryList('SELECT * FROM items', mapper: _itemsMapper);
+    return _queryAdapter.queryList('SELECT * FROM items',
+        mapper: (Map<String, dynamic> row) => ItemLocalModel(
+            id: row['id'] as String,
+            title: row['title'] as String,
+            subtitle: row['subtitle'] as String,
+            poster: row['poster'] as String,
+            body: row['body'] as String,
+            roomId: row['room_id'] as String,
+            roomTitle: row['room_title'] as String,
+            roomFloor: row['room_floor'] as int,
+            roomNumber: row['room_number'] as int,
+            highlighted: row['highlighted'] == null
+                ? null
+                : (row['highlighted'] as int) != 0));
   }
 
   @override
   Future<ItemLocalModel> findItemById(String id) async {
     return _queryAdapter.query('SELECT * FROM items WHERE id = ?',
-        arguments: <dynamic>[id], mapper: _itemsMapper);
+        arguments: <dynamic>[id],
+        mapper: (Map<String, dynamic> row) => ItemLocalModel(
+            id: row['id'] as String,
+            title: row['title'] as String,
+            subtitle: row['subtitle'] as String,
+            poster: row['poster'] as String,
+            body: row['body'] as String,
+            roomId: row['room_id'] as String,
+            roomTitle: row['room_title'] as String,
+            roomFloor: row['room_floor'] as int,
+            roomNumber: row['room_number'] as int,
+            highlighted: row['highlighted'] == null
+                ? null
+                : (row['highlighted'] as int) != 0));
   }
 
   @override
   Future<List<ItemLocalModel>> getRoomItems(String roomId) async {
     return _queryAdapter.queryList('SELECT * FROM items WHERE room_id = ?',
-        arguments: <dynamic>[roomId], mapper: _itemsMapper);
+        arguments: <dynamic>[roomId],
+        mapper: (Map<String, dynamic> row) => ItemLocalModel(
+            id: row['id'] as String,
+            title: row['title'] as String,
+            subtitle: row['subtitle'] as String,
+            poster: row['poster'] as String,
+            body: row['body'] as String,
+            roomId: row['room_id'] as String,
+            roomTitle: row['room_title'] as String,
+            roomFloor: row['room_floor'] as int,
+            roomNumber: row['room_number'] as int,
+            highlighted: row['highlighted'] == null
+                ? null
+                : (row['highlighted'] as int) != 0));
   }
 
   @override
   Stream<List<ItemLocalModel>> watchAllItems() {
     return _queryAdapter.queryListStream('SELECT * FROM items',
-        queryableName: 'items', isView: false, mapper: _itemsMapper);
+        queryableName: 'items',
+        isView: false,
+        mapper: (Map<String, dynamic> row) => ItemLocalModel(
+            id: row['id'] as String,
+            title: row['title'] as String,
+            subtitle: row['subtitle'] as String,
+            poster: row['poster'] as String,
+            body: row['body'] as String,
+            roomId: row['room_id'] as String,
+            roomTitle: row['room_title'] as String,
+            roomFloor: row['room_floor'] as int,
+            roomNumber: row['room_number'] as int,
+            highlighted: row['highlighted'] == null
+                ? null
+                : (row['highlighted'] as int) != 0));
   }
 
   @override
@@ -257,33 +297,47 @@ class _$RoomsLocalDatasource extends RoomsLocalDatasource {
 
   final QueryAdapter _queryAdapter;
 
-  static final _roomsMapper = (Map<String, dynamic> row) => RoomLocalModel(
-      id: row['id'] as String,
-      title: row['title'] as String,
-      floor: row['floor'] as int,
-      number: row['number'] as int,
-      offsetX: row['offset_x'] as double,
-      offsetY: row['offset_y'] as double);
-
   final InsertionAdapter<RoomLocalModel> _roomLocalModelInsertionAdapter;
 
   final DeletionAdapter<RoomLocalModel> _roomLocalModelDeletionAdapter;
 
   @override
   Future<List<RoomLocalModel>> getRooms() async {
-    return _queryAdapter.queryList('SELECT * FROM rooms', mapper: _roomsMapper);
+    return _queryAdapter.queryList('SELECT * FROM rooms',
+        mapper: (Map<String, dynamic> row) => RoomLocalModel(
+            id: row['id'] as String,
+            title: row['title'] as String,
+            floor: row['floor'] as int,
+            number: row['number'] as int,
+            offsetX: row['offset_x'] as double,
+            offsetY: row['offset_y'] as double));
   }
 
   @override
   Future<RoomLocalModel> findRoomById(String id) async {
     return _queryAdapter.query('SELECT * FROM rooms WHERE id = ?',
-        arguments: <dynamic>[id], mapper: _roomsMapper);
+        arguments: <dynamic>[id],
+        mapper: (Map<String, dynamic> row) => RoomLocalModel(
+            id: row['id'] as String,
+            title: row['title'] as String,
+            floor: row['floor'] as int,
+            number: row['number'] as int,
+            offsetX: row['offset_x'] as double,
+            offsetY: row['offset_y'] as double));
   }
 
   @override
   Stream<List<RoomLocalModel>> watchRooms() {
     return _queryAdapter.queryListStream('SELECT * FROM rooms',
-        queryableName: 'rooms', isView: false, mapper: _roomsMapper);
+        queryableName: 'rooms',
+        isView: false,
+        mapper: (Map<String, dynamic> row) => RoomLocalModel(
+            id: row['id'] as String,
+            title: row['title'] as String,
+            floor: row['floor'] as int,
+            number: row['number'] as int,
+            offsetX: row['offset_x'] as double,
+            offsetY: row['offset_y'] as double));
   }
 
   @override

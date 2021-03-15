@@ -1,7 +1,7 @@
 name: museo_zuccante
 description: School project for the ITIS Zuccante Museum.
 
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 version: 0.0.1+1
 
@@ -11,41 +11,36 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  alice: ^0.1.5
-  connectivity: ^0.4.9+3
+  alice: any
+  connectivity: ^3.0.2
   cupertino_icons: ^1.0.0
   dartz: ^0.9.2
   dio: ^3.0.10
   dio_log: ^1.3.5
-  easy_localization: ^2.3.3
-  equatable: ^1.2.5
+  easy_localization: any
+  equatable: ^2.0.0
   f_logs: ^1.2.2
   fancy_shimmer_image: ^1.2.0
-  floor: ^0.14.0
-  flutter_bloc: ^6.0.6
-  flutter_email_sender: ^3.0.1
-  flutter_markdown: ^0.4.4
-  flutter_neumorphic: ^3.0.3
-  get_it: ^5.0.1
-  google_fonts: ^1.1.0
-  permission_handler: ^5.0.1+1
-  qr_code_scanner: ^0.0.13
-  rxdart: ^0.24.1
-  shared_preferences: ^0.5.12
-  shimmer: ^1.1.1
-  stack_trace: ^1.9.5
+  floor: ^0.18.0
+  flutter_bloc: ^6.1.3
+  flutter_email_sender: ^5.0.0
+  flutter_markdown: any
+  flutter_neumorphic: ^3.1.0
+  get_it: ^6.0.0
+  google_fonts: any
+  permission_handler: null
+  qr_code_scanner: ^0.3.5
+  rxdart: ^0.25.0
+  shared_preferences: null
+  shimmer: ^1.1.2
+  stack_trace: ^1.10.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  build_runner: ^1.7.3
-  floor_generator: ^0.14.0
-  flutter_native_splash: ^0.1.9
+  build_runner: ^1.10.3
+  floor_generator: ^0.18.0
 
-flutter_native_splash:
-  image: assets/images/splash_2.png
-  color: "014343"
-  
 flutter:
   uses-material-design: true
 

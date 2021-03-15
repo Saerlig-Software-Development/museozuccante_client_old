@@ -20,7 +20,7 @@ class _ItemLoaderPageState extends State<ItemLoaderPage> {
   @override
   void initState() {
     super.initState();
-    context.bloc<ItemBloc>().add(GetItem(id: widget.id));
+    BlocProvider.of<ItemBloc>(context).add(GetItem(id: widget.id));
   }
 
   @override

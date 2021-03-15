@@ -58,6 +58,7 @@ class _ItemPageState extends State<ItemPage> {
                   ),
                   AppBar(
                     backgroundColor: Colors.transparent,
+                    brightness: Brightness.dark,
                     leading: IconButton(
                       icon: Container(
                           height: 24,

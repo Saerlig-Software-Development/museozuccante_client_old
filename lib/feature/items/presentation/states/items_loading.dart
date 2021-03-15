@@ -81,10 +81,11 @@ class ItemsLoadingState extends StatelessWidget {
                 ),
               ),
               Spacer(),
-              FlatButton(
-                splashColor: Colors.transparent,
-                highlightColor: Colors.transparent,
-                // color: ,
+              TextButton(
+                style: ButtonStyle(
+                  overlayColor: MaterialStateProperty.resolveWith<Color>(
+                      (_) => Colors.transparent),
+                ),
                 onPressed: () {},
                 child: Text(
                   "View all",

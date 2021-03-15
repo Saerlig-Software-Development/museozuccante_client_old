@@ -132,6 +132,6 @@ class _ItemsListPageState extends State<ItemsListPage> {
   }
 
   void updateItems() {
-    context.bloc<ItemsUpdaterBloc>().add(UpdateItems());
+    BlocProvider.of<ItemsUpdaterBloc>(context).add(UpdateItems());
   }
 }

@@ -58,21 +58,21 @@ class _ItemsPageState extends State<ItemsPage> {
   }
 
   void updateItems() {
-    context.bloc<ItemsUpdaterBloc>().add(UpdateItems());
+    BlocProvider.of<ItemsUpdaterBloc>(context).add(UpdateItems());
   }
 
   void updateItemsIfNeeded() {
-    context.bloc<ItemsUpdaterBloc>().add(UpdateItemsIfNeeded());
+    BlocProvider.of<ItemsUpdaterBloc>(context).add(UpdateItemsIfNeeded());
   }
 
   void reactToUpdaterState(ItemsUpdaterState state) {
     if (state is ItemsUpdaterFailure) {
-      Scaffold.of(context).showSnackBar(SnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(state.failure.localizedDescription),
       ));
     } else if (state is ItemsUpdaterSuccess &&
         state.success is SuccessWithUpdate) {
-      Scaffold.of(context).showSnackBar(SnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text('Aggiornato'),
       ));
     }

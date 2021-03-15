@@ -35,8 +35,6 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
               .where((element) => _showResult(event.query, element))
               .toList();
 
-          print(results);
-
           yield SearchResultsLoaded(results: results);
         }
       }

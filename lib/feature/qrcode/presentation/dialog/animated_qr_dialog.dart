@@ -315,7 +315,7 @@ class _AnimatedQRDialogState extends State<AnimatedQRDialog>
         MaterialPageRoute(
           builder: (context) {
             return ItemLoaderPage(
-              id: scanData,
+              id: scanData.code,
             );
           },
         ),

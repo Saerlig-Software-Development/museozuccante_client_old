@@ -34,7 +34,9 @@ class _ItemsLoadedStateState extends State<ItemsLoadedState> {
 
     _searchController = TextEditingController();
     _searchController.addListener(() {
-      context.bloc<SearchBloc>().add(SearchItem(query: _searchController.text));
+      BlocProvider.of<SearchBloc>(context)
+          .add(SearchItem(query: _searchController.text));
+
       setState(() {});
     });
   }
@@ -46,7 +48,7 @@ class _ItemsLoadedStateState extends State<ItemsLoadedState> {
         backgroundColor: MZColors.primary,
         color: Colors.white,
         onRefresh: () async {
-          context.bloc<ItemsUpdaterBloc>().add(UpdateItems());
+          BlocProvider.of<ItemsUpdaterBloc>(context).add(UpdateItems());
         },
         child: SingleChildScrollView(
           physics: AlwaysScrollableScrollPhysics(),
@@ -268,9 +270,11 @@ class _ItemsLoadedStateState extends State<ItemsLoadedState> {
                 ),
               ),
               Spacer(),
-              FlatButton(
-                splashColor: Colors.transparent,
-                highlightColor: Colors.transparent,
+              TextButton(
+                style: ButtonStyle(
+                  overlayColor: MaterialStateProperty.resolveWith<Color>(
+                      (_) => Colors.transparent),
+                ),
                 onPressed: () {
                   widget.goToList();
                 },

@@ -30,7 +30,7 @@ class EmptyView extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
           ),
-          FlatButton(
+          TextButton(
             child: Text(
               'Retry',
               style: TextStyle(
